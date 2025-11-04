@@ -38,7 +38,7 @@ class ExchangeRateClient:
     _api_key: str
 
     def __init__(self, api_key: str) -> None:
-        self._client = Client(base_url="https://open.er-api.com/v6")
+        self._client = Client(base_url="https://v6.exchangerate-api.com/v6/")
         self._api_key = api_key
         pass
 
@@ -50,6 +50,6 @@ class ExchangeRateClient:
         response.raise_for_status()
         api_response_raw = response.json()
 
-        api_response = PairExchangeRateResponse(api_response_raw)
+        api_response = PairExchangeRateResponse.from_dict(api_response_raw)
 
         return api_response.conversion_rate
