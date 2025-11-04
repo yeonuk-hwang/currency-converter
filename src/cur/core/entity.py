@@ -12,7 +12,7 @@ class Currency(Enum):
     def from_string(cls, currency: str) -> str:
         currency = currency.strip().upper()
         try:
-            return cls[currency].value
+            return cls[currency]
         except KeyError:
             supported = ", ".join(c.value for c in cls)
             raise ParseError(

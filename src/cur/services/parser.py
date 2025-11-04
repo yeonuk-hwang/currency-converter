@@ -52,5 +52,5 @@ def parse_amount(amount: str) -> float:
     return number
 
 
-def parse_currency(currency: str) -> str:
+def parse_currency(currency: str) -> Currency:
     return Currency.from_string(currency)

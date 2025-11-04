@@ -1,5 +1,6 @@
 import pytest
 
+from cur.core.entity import Currency
 from cur.core.exception import ParseError
 from cur.services.parser import parse_amount, parse_currency
 
@@ -92,20 +93,16 @@ class TestParseAmount:
 
 class TestParseCurrency:
     def test_parse_valid_currencies(self):
-        assert parse_currency("usd") == "USD"
-        assert parse_currency("USD") == "USD"
-        assert parse_currency("krw") == "KRW"
-        assert parse_currency("KRW") == "KRW"
-        assert parse_currency("aud") == "AUD"
-        assert parse_currency("AUD") == "AUD"
-
-    def test_parse_case_insensitive(self):
-        assert parse_currency("usd") == parse_currency("USD")
-        assert parse_currency("Usd") == parse_currency("usD")
+        assert parse_currency("usd") == Currency.USD
+        assert parse_currency("USD") == Currency.USD
+        assert parse_currency("krw") == Currency.KRW
+        assert parse_currency("KRW") == Currency.KRW
+        assert parse_currency("aud") == Currency.AUD
+        assert parse_currency("AUD") == Currency.AUD
 
     def test_parse_with_whitespace(self):
-        assert parse_currency("  usd  ") == "USD"
-        assert parse_currency("  KRW  ") == "KRW"
+        assert parse_currency("  usd  ") == Currency.USD
+        assert parse_currency("  KRW  ") == Currency.KRW
 
     def test_parse_invalid_currency(self):
         with pytest.raises(ParseError, match="Unsupported currency: EUR"):

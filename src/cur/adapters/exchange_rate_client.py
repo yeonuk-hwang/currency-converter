@@ -3,6 +3,8 @@ from typing import Literal
 
 from httpx import Client
 
+from cur.core.entity import Currency
+
 
 @dataclass
 class PairExchangeRateResponse:
@@ -42,10 +44,8 @@ class ExchangeRateClient:
         self._api_key = api_key
         pass
 
-    def get_rate(self, base_currency: str, target_currency: str) -> float:
-        api_path = (
-            f"{self._api_key}/pair/{base_currency.upper()}/{target_currency.upper()}"
-        )
+    def get_rate(self, base_currency: Currency, target_currency: Currency) -> float:
+        api_path = f"{self._api_key}/pair/{base_currency.value}/{target_currency.value}"
         response = self._client.get(url=api_path)
         response.raise_for_status()
         api_response_raw = response.json()

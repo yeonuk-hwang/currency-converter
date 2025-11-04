@@ -3,6 +3,7 @@ import os
 import pytest
 
 from cur.adapters.exchange_rate_client import ExchangeRateClient
+from cur.core.entity import Currency
 
 
 @pytest.fixture(scope="session")
@@ -12,7 +13,9 @@ def client() -> ExchangeRateClient:
 
 
 def test_get_aud_to_krw(client: ExchangeRateClient):
-    rate = client.get_rate("aud", "krw")
+    aud = Currency.AUD
+    krw = Currency.KRW
+    rate = client.get_rate(aud, krw)
 
     assert rate is not None
     assert isinstance(rate, float)
@@ -20,7 +23,9 @@ def test_get_aud_to_krw(client: ExchangeRateClient):
 
 
 def test_get_krw_to_aud(client: ExchangeRateClient):
-    rate = client.get_rate("krw", "aud")
+    aud = Currency.AUD
+    krw = Currency.KRW
+    rate = client.get_rate(krw, aud)
 
     assert rate is not None
     assert isinstance(rate, float)
