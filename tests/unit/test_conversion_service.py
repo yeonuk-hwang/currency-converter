@@ -30,8 +30,8 @@ def test_conversion_service_can_convert(service: ConversionService):
 
     expected_conversion_result = ConversionResult(
         base_amount=aud_amount,
-        base_currency=aud.value,
-        target_currency=krw.value,
+        base_currency=aud.code,
+        target_currency=krw.code,
         target_amount=expected_krw_amount,
         exchange_rate=MOCK_RATE,
     )

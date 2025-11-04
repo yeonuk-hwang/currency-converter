@@ -36,8 +36,8 @@ class ConversionService:
 
         return ConversionResult(
             base_amount=base_amount,
-            base_currency=base_currency.value,
+            base_currency=base_currency.code,
             target_amount=target_amount,
-            target_currency=target_currency.value,
+            target_currency=target_currency.code,
             exchange_rate=exchange_rate,
         )

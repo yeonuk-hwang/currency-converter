@@ -45,7 +45,7 @@ class ExchangeRateClient:
         pass
 
     def get_rate(self, base_currency: Currency, target_currency: Currency) -> float:
-        api_path = f"{self._api_key}/pair/{base_currency.value}/{target_currency.value}"
+        api_path = f"{self._api_key}/pair/{base_currency}/{target_currency}"
         response = self._client.get(url=api_path)
         response.raise_for_status()
         api_response_raw = response.json()
