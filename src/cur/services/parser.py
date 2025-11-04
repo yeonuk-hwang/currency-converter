@@ -1,10 +1,9 @@
 import re
-from enum import Enum, IntEnum
+from enum import IntEnum
 from typing import Final
 
-
-class ParseError(Exception):
-    pass
+from cur.core.entity import Currency
+from cur.core.exception import ParseError
 
 
 class UnitMultiplier(IntEnum):
@@ -18,23 +17,6 @@ class UnitMultiplier(IntEnum):
             return cls[unit.upper()].value
         except KeyError:
             raise ParseError(f"Invalid unit: {unit}")
-
-
-class Currency(Enum):
-    AUD = "AUD"
-    KRW = "KRW"
-    USD = "USD"
-
-    @classmethod
-    def from_string(cls, currency: str) -> str:
-        currency = currency.strip().upper()
-        try:
-            return cls[currency].value
-        except KeyError:
-            supported = ", ".join(c.value for c in cls)
-            raise ParseError(
-                f"Unsupported currency: {currency}. Supported: {supported}"
-            )
 
 
 AMOUNT_PATTERN: Final[re.Pattern] = re.compile(

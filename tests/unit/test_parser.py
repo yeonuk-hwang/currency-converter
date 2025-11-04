@@ -1,6 +1,7 @@
 import pytest
 
-from cur.core.parser import ParseError, parse_amount, parse_currency
+from cur.core.exception import ParseError
+from cur.services.parser import parse_amount, parse_currency
 
 
 class TestParseAmount:
