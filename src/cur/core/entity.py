@@ -8,15 +8,16 @@ from cur.core.exception import ParseError
 class CurrencyInfo:
     code: str
     korean_name: str
+    subunit_name: str | None = None
 
     def __str__(self) -> str:
         return self.code
 
 
 class Currency(Enum):
-    AUD = CurrencyInfo("AUD", "호주 달러")
-    KRW = CurrencyInfo("KRW", "원")
-    USD = CurrencyInfo("USD", "미국 달러")
+    AUD = CurrencyInfo("AUD", "달러", "센트")
+    KRW = CurrencyInfo("KRW", "원", None)
+    USD = CurrencyInfo("USD", "달러", "센트")
 
     @classmethod
     def from_string(cls, currency: str) -> "Currency":
@@ -36,6 +37,10 @@ class Currency(Enum):
     @property
     def korean_name(self) -> str:
         return self.value.korean_name
+
+    @property
+    def subunit_name(self) -> str | None:
+        return self.value.subunit_name
 
     def __str__(self) -> str:
         return self.code
