@@ -41,14 +41,10 @@ class TestExchangeRateClientWithCache:
         """Mock API response data."""
         return {
             "result": "success",
-            "documentation": "https://www.exchangerate-api.com/docs",
-            "terms_of_use": "https://www.exchangerate-api.com/terms",
             "time_last_update_unix": int(time.time()) - 3600,
-            "time_last_update_utc": "Thu, 01 Jan 2024 00:00:00 +0000",
             "time_next_update_unix": int(time.time()) + 82800,  # ~23 hours from now
-            "time_next_update_utc": "Fri, 02 Jan 2024 00:00:00 +0000",
             "base_code": "USD",
-            "conversion_rates": {
+            "rates": {
                 "USD": 1.0,
                 "EUR": 0.9,
                 "KRW": 1300.0,
@@ -160,7 +156,7 @@ class TestExchangeRateClientWithCache:
         cached_data = cache.get("USD")
         assert cached_data is not None
         assert cached_data["base_code"] == "USD"
-        assert cached_data["conversion_rates"]["KRW"] == 1300.0
+        assert cached_data["rates"]["KRW"] == 1300.0
 
     def test_get_rate_raises_value_error_for_currency_not_in_api_response(
         self, client: ExchangeRateClient, mock_http_client: Mock
@@ -176,7 +172,7 @@ class TestExchangeRateClientWithCache:
             "time_next_update_unix": int(time.time()) + 82800,
             "time_next_update_utc": "Fri, 02 Jan 2024 00:00:00 +0000",
             "base_code": "USD",
-            "conversion_rates": {
+            "rates": {
                 "USD": 1.0,
                 "AUD": 1.5,
                 # KRW is intentionally missing
@@ -199,7 +195,7 @@ class TestExchangeRateClientWithCache:
         # Second response for AUD (different base currency)
         aud_response_data = mock_api_response.copy()
         aud_response_data["base_code"] = "AUD"
-        aud_response_data["conversion_rates"] = {
+        aud_response_data["rates"] = {
             "USD": 0.67,
             "AUD": 1.0,
             "KRW": 870.0,

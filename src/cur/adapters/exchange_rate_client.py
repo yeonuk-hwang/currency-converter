@@ -10,14 +10,10 @@ from cur.core.entity import Currency
 @dataclass
 class LatestExchangeRateResponse:
     result: Literal["success", "error"]
-    documentation: str
-    terms_of_use: str
     time_last_update_unix: int
-    time_last_update_utc: str
     time_next_update_unix: int
-    time_next_update_utc: str
     base_code: str
-    conversion_rates: dict[str, float]
+    rates: dict[str, float]
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -26,14 +22,10 @@ class LatestExchangeRateResponse:
     def from_dict(cls, data: dict) -> "LatestExchangeRateResponse":
         return cls(
             result=data["result"],
-            documentation=data["documentation"],
-            terms_of_use=data["terms_of_use"],
             time_last_update_unix=data["time_last_update_unix"],
-            time_last_update_utc=data["time_last_update_utc"],
             time_next_update_unix=data["time_next_update_unix"],
-            time_next_update_utc=data["time_next_update_utc"],
             base_code=data["base_code"],
-            conversion_rates=data["conversion_rates"],
+            rates=data["rates"],
         )
 
 
@@ -44,7 +36,7 @@ class ExchangeRateClient:
         http_client: Client | None = None,
     ) -> None:
         self._client = http_client or Client(
-            base_url="https://v6.exchangerate-api.com/v6/"
+            base_url="https://open.er-api.com/v6/latest/"
         )
         self._cache = cache if cache is not None else ExchangeRateCache()
 
@@ -55,8 +47,7 @@ class ExchangeRateClient:
         if cached_data is not None:
             return LatestExchangeRateResponse.from_dict(cached_data)
 
-        api_path = f"/latest/{base_currency}"
-        response = self._client.get(url=api_path)
+        response = self._client.get(url=base_currency.code)
         response.raise_for_status()
         api_response_raw = response.json()
 
@@ -72,7 +63,7 @@ class ExchangeRateClient:
         latest_rates = self._get_latest_rates(base_currency)
         target_code = target_currency.code
 
-        if target_code not in latest_rates.conversion_rates:
+        if target_code not in latest_rates.rates:
             raise ValueError(f"Target currency {target_code} not found in rates")
 
-        return latest_rates.conversion_rates[target_code]
+        return latest_rates.rates[target_code]
