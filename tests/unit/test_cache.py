@@ -9,18 +9,18 @@ from cur.adapters.cache import CachedData, ExchangeRateCache, FileCacheStorage
 class TestCachedData:
     def test_is_expired_returns_true_when_past_expiry(self):
         past_time = int(time.time()) - 100
-        cached = CachedData(data={"test": "data"}, expiry_unix=past_time)
+        cached = CachedData(data={"test": "data"}, ttl=past_time)
 
         assert cached.is_expired() is True
 
     def test_is_expired_returns_false_when_before_expiry(self):
         future_time = int(time.time()) + 100
-        cached = CachedData(data={"test": "data"}, expiry_unix=future_time)
+        cached = CachedData(data={"test": "data"}, ttl=future_time)
 
         assert cached.is_expired() is False
 
     def test_to_dict_and_from_dict_roundtrip(self):
-        original = CachedData(data={"key": "value"}, expiry_unix=1234567890)
+        original = CachedData(data={"key": "value"}, ttl=1234567890)
 
         as_dict = original.to_dict()
         restored = CachedData.from_dict(as_dict)
@@ -111,7 +111,7 @@ class TestFileCacheStorage:
         self, storage: FileCacheStorage, temp_cache_dir: Path
     ):
         test_data = {"rate": 1.23}
-        key_with_backslash = "USD\EUR"
+        key_with_backslash = "USD\\EUR"
 
         storage.write(key_with_backslash, test_data)
         result = storage.read(key_with_backslash)

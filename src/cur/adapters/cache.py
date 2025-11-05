@@ -10,17 +10,17 @@ from platformdirs import user_cache_dir
 @dataclass
 class CachedData:
     data: dict
-    expiry_unix: int
+    ttl: int
 
     def is_expired(self) -> bool:
-        return int(time.time()) >= self.expiry_unix
+        return int(time.time()) >= self.ttl
 
     def to_dict(self) -> dict:
         return asdict(self)
 
     @classmethod
     def from_dict(cls, data: dict) -> "CachedData":
-        return cls(data=data["data"], expiry_unix=data["expiry_unix"])
+        return cls(data=data["data"], ttl=data["ttl"])
 
 
 class CacheStorage(Protocol):
@@ -99,8 +99,8 @@ class ExchangeRateCache:
             self._storage.delete(key)
             return None
 
-    def set(self, key: str, data: dict, expiry_unix: int) -> None:
-        cached = CachedData(data=data, expiry_unix=expiry_unix)
+    def set(self, key: str, data: dict, ttl: int) -> None:
+        cached = CachedData(data=data, ttl=ttl)
         self._storage.write(key, cached.to_dict())
 
     def clear(self) -> None:
