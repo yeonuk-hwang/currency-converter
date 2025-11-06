@@ -49,6 +49,10 @@ uv sync
 
 ## Usage
 
+### Help
+
+![Help Message](assets/help.png)
+
 ### Basic Currency Conversion
 
 ![Basic Usage](assets/basic_usage.png)
