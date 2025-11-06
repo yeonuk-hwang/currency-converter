@@ -48,8 +48,8 @@ wheels = [
 ]
 
 [[package]]
-name = "currency-translator"
-version = "0.1.0"
+name = "currency-converter"
+version = "1.0.0"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
