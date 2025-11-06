@@ -18,7 +18,6 @@ cur = "cur.entrypoints.cli:main"
 [dependency-groups]
 dev = [
     "pytest>=8.4.2",
-    "python-dotenv>=1.2.1",
 ]
 
 [build-system]
