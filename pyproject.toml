@@ -7,7 +7,13 @@ requires-python = ">=3.10.2"
 dependencies = [
     "httpx>=0.28.1",
     "platformdirs>=4.0.0",
+    "pyperclip>=1.9.0",
+    "rich>=14.2.0",
+    "typer>=0.20.0",
 ]
+
+[project.scripts]
+cur = "cur.entrypoints.cli:main"
 
 [dependency-groups]
 dev = [
