@@ -15,7 +15,10 @@ from cur.utils.formatters.number_formatter import (
     format_with_commas,
 )
 
-app = typer.Typer(help="Quick currency conversion tool for AUD, KRW, and USD")
+app = typer.Typer(
+    help="Quick currency conversion tool for AUD, KRW, and USD",
+    add_completion=False,
+)
 console = Console(highlighter=None)  # Disable automatic highlighting
 
 
@@ -28,10 +31,11 @@ class CopyFormat(str, Enum):
 @app.command()
 def convert(
     amount: Annotated[
-        str, typer.Argument(help="Amount to convert (supports K/M/B units)")
+        str,
+        typer.Argument(help="Amount to convert. Supports commas and K/M/B units (e.g., 100, 1,000,000, 1.5K)"),
     ],
-    from_currency: Annotated[str, typer.Argument(help="Source currency (AUD/KRW/USD)")],
-    to_currency: Annotated[str, typer.Argument(help="Target currency (AUD/KRW/USD)")],
+    from_currency: Annotated[str, typer.Argument(help="Source currency (AUD/KRW/USD, case insensitive)")],
+    to_currency: Annotated[str, typer.Argument(help="Target currency (AUD/KRW/USD, case insensitive)")],
     copy_format: Annotated[
         CopyFormat,
         typer.Option(
@@ -41,7 +45,7 @@ def convert(
         ),
     ] = CopyFormat.default,
 ):
-    """Convert currency between AUD, KRW, and USD."""
+    """Quick currency conversion tool for AUD, KRW, and USD."""
     try:
         # Parse inputs
         parsed_amount = parse_amount(amount)
