@@ -1,6 +1,6 @@
 [project]
-name = "currency-translator"
-version = "0.1.0"
+name = "currency-converter"
+version = "1.0.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10.2"
