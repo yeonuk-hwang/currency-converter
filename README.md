@@ -65,6 +65,6 @@ uv sync
 
 ![Copy Options](assets/copy_options.png)
 
-## Exchange Rate Data
+## Credits
 
 This tool uses the free API provided by [ExchangeRate-API](https://www.exchangerate-api.com/) for currency conversion rates.
