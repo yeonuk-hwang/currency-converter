@@ -209,7 +209,7 @@ def test_help_command(runner):
     result = runner.invoke(app, ["--help"])
 
     assert result.exit_code == 0
-    assert "Convert currency between AUD, KRW, and USD" in result.stdout
+    assert "Quick currency conversion tool for AUD, KRW, and USD" in result.stdout
     assert "Amount to convert" in result.stdout
     assert "--copy" in result.stdout
 
